@@ -179,21 +179,171 @@
 			</section>
 			<!-- /SLIDER -->
 
-
-
+			<section>
+					<div class="container">
+	
+						<header class="text-center">
+							<h2 class="m-0">Process Steps</h2>
+							<p class="font-lato fs-20 m-0">We truly care about our customers</p>
+						</header>
+						
+						<div class="divider divider-center"><!-- divider -->
+							<i class="fa fa-chevron-down"></i>
+						</div>
+	
+						<ul class="process-steps nav nav-tabs nav-justified mt-100">
+							<li class="nav-item">
+								<a class="nav-link active fa fa-home" href="#step1" data-toggle="tab"></a>
+								<h5>Residential</h5>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link fa fa-shopping-cart" href="#step2" data-toggle="tab"></a>
+								<h5>Comercial</h5>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link fa fa-cubes" href="#step3" data-toggle="tab"></a>
+								<h5>Hybride</h5>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link fa fa-building-o" href="#step4" data-toggle="tab"></a>
+								<h5>Corporation</h5>
+							</li>
+						</ul>
+	
+						<div class="tab-content mt-30">
+							<div class="tab-pane active" id="step1">
+									<div id="residential" class="building_type" >
+											Residential Form <br /> <br />
+											<div class="col-md-4">
+												 <label for="contact:name">Numbers of appartement in the building. *</label>
+												 <input required type="number" class="form-control" id="res1"/>
+											 </div>
+											 <div class="col-md-4">
+													 <label for="contact:name">Numbers of floors in the building. *</label>
+													 <input required type="number" class="form-control"  id="res2"/>
+												 </div>
+												 <div class="col-md-4">
+														 <label for="contact:name">Numbers of basements in the building. *</label>
+														 <input required type="number" class="form-control"  id="res3"/>
+												 </div>
+										 
+				 
+											 <div id="resresult"> </div>
+											 <button onclick = "calculator1()">Submit</button>               
+										</div>	  
+									</div>
+	
+							<div class="tab-pane" id="step2">
+									<div id="commercial" class="building_type" >
+											Commercial Form <br /> <br />
+											<div class="col-md-4">
+												 <label for="contact:name">Numbers of commercial units in the building. *</label>
+												 <input required type="number" class="form-control" id="comm1">
+											 </div>
+											 <div class="col-md-4">
+													 <label for="contact:name">Numbers of floors in the building. *</label>
+													 <input required type="number" class="form-control" id="comm2">
+												 </div>
+												 <div class="col-md-4">
+														 <label for="contact:name">Numbers of basements in the building. *</label>
+														 <input required type="number" class="form-control"  id="comm3">
+													 </div>
+													 <div class="col-md-4">
+															 <label for="contact:name">Numbers of parking place available around the building. *</label>
+															 <input required type="number" class="form-control" id="comm4">
+														 </div>
+														 <div class="col-md-4">
+																 <label for="contact:name">Numbers of elevators cage needed. *</label>
+																 <input required type="number" class="form-control" id="comm5">
+															 </div>
+															 <button onclick = "calculator()">Submit</button>
+															 <div id="commresult"> </div><div class="col-md-4">
+																	<label for="contact:name">Numbers of elevators cages needed *</label>
+																	<input required type="text" value="" class="form-control" name="contact[name][required]" id="hy1">
+																</div>
+				 
+										 </div>		</div>
+	
+							<div class="tab-pane" id="step3">
+									<div id="hybrid" class="building_type" >
+											Hybrid form
+											<div class="col-md-4">
+												 <label for="contact:name">Numbers of commercial units in the building. *</label>
+												 <input required type="text" value="" class="form-control" name="contact[name][required]" id="hy1">
+											 </div>
+											 <div class="col-md-4">
+													 <label for="contact:name">Numbers of floors in the building. *</label>
+													 <input required type="text" value="" class="form-control" name="contact[name][required]" id="hy2">
+												 </div>
+												 <div class="col-md-4">
+														 <label for="contact:name">Numbers of basements in the building. *</label>
+														 <input required type="text" value="" class="form-control" name="contact[name][required]" id="hy3">
+													 </div>
+													 <div class="col-md-4">
+															 <label for="contact:name">Numbers of parking space available around the building. *</label>
+															 <input required type="text" value="" class="form-control" name="contact[name][required]" id="hy4">
+														 </div>
+														 <div class="col-md-4">
+																 <label for="contact:name">Numbers of maximum occupants by floors. *</label>
+																 <input required type="text" value="" class="form-control" id="hy5">
+															 </div>
+															 <div class="col-md-4">
+																	 <label for="contact:name">Numbers of hours of activity in the building (Maximum 24h). *</label>
+																	 <input type="number" id="hy6" size=10 value="" name="onlynumbers" min="0" max="24" required><span class="required">*</span>
+																 </div>
+																 <button onclick = "calculator2()">Submit</button>
+															 <div la id="hybridresult"> </div>
+														 
+										 </div></div>
+	
+							<div class="tab-pane" id="step4">
+									<div id="corporate" class="building_type" >
+											Corporate form
+											<div class="col-md-4">
+												 <label for="contact:name">Numbers of separate tenant compagnies in the building. *</label>
+												 <input required type="text" value="" class="form-control" id="corp1">
+											 </div>
+											 <div class="col-md-4">
+													 <label for="contact:name">Numbers of floors in the building. *</label>
+													 <input required type="text" value="" class="form-control" id="corp2">
+												 </div>
+												 <div class="col-md-4">
+														 <label for="contact:name">Numbers of basements in the building. *</label>
+														 <input required type="text" value="" class="form-control" id="corp3">
+													 </div>
+													 <div class="col-md-4">
+															 <label for="contact:name">Numbers of parking space available around the building. *</label>
+															 <input required type="text" value="" class="form-control" id="corp4">
+														 </div>
+														 <div class="col-md-4">
+																 <label for="contact:name">Numbers of maximum occupants by floor. *</label>
+																 <input required type="text" value="" class="form-control" id="corp5">
+															 </div>
+															 <button onclick = "calculator3()">Submit</button>               
+											  <div id="corpresult"> </div>
+										 </div>	</div>
+	
+						
+						</div>
+	
+					</div>
+				</section>
+			<!-- FORM -->
+			<body >
 			
+						
+						
+							
+					
+						
+						
+						
+											
+						
+
+<!-- /FORM -->
 
 
-
-
-
-
-		
-
-
-
-
-		
 
 
 				<!-- CONTACT -->
@@ -207,8 +357,7 @@
 						</header>
 	
 	
-						<div class="row">
-	
+					
 							<!-- FORM -->
 							<div class="col-md-8 col-sm-8">
 	
@@ -476,10 +625,9 @@
 		<script src="assets/plugins/jquery/jquery-3.3.1.min.js"></script>
 
 		<script src="assets/js/scripts.js"></script>
+		<script src="assets/js/calculator.js"></script>
 		
-		<!-- STYLESWITCHER - REMOVE -->
-		<script async src="demo_files/styleswitcher/styleswitcher.js"></script>
-
+		
 		<!-- PAGELEVEL SCRIPTS -->
 		<script src="assets/js/contact.js"></script>
 
