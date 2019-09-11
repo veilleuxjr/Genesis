@@ -230,31 +230,31 @@
 							Residential Form <br /> <br />
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of appartement in the building. *</label>
-								<input required type="number" class="form-control" id="res1" />
+								<input required value="" type="number" class="form-control" id="res1" />
 							</div>
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of floors in the building. *</label>
-								<input required type="number" class="form-control" id="res2" />
+								<input required value="" type="number" class="form-control" id="res2" />
 							</div>
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of basements in the building. *</label>
-								<input required type="number" class="form-control" id="res3" />
+								<input required value="" type="number" class="form-control" id="res3" />
 							
 
 							</div>
 
 						</div>
 						<label for="hybridresult">Numbers of elevators cages needed.</label>
-						<div class="boxed" id="priceoption"> <input type="text"  class="boxed"></div>
+						<div class="boxed" id="priceoption_res"> <input type="text"  class="boxed"></div>
 
-	<p>Please select an instalion option.</p>
-	<div  action="">
-		<input id="stand" type="radio" onclick="calculatorresi()" name="gender"> Standard<br>
-		<input id="premium" type="radio" onclick="calculatorresi()" name="gender"> Prenium<br>
-		<input id="excelium" type="radio" onclick="calculatorresi()" name="gender"> Excelcium<br>
-	</div>
-	<label for="hybridresult">Price of the elevator(s).</label>
-	<div class="boxed" id="priceinstal"> <input type="text" name value disabled class="boxed"></div>
+						<p>Please select an instalion option.</p>
+						<div  action="">
+							<input id="stand" type="radio" onclick="calculatorresi()" name="gender"> Standard<br>
+							<input id="premium" type="radio" onclick="calculatorresi()" name="gender"> Prenium<br>
+							<input id="excelium" type="radio" onclick="calculatorresi()" name="gender"> Excelcium<br>
+						</div>
+						<label for="hybridresult">Price of the elevator(s).</label>
+						<div class="boxed" id="priceinstal_res"> <input type="text" name value disabled class="boxed"></div>
 
 
 					</div>
@@ -264,42 +264,37 @@
 							Commercial Form <br /> <br />
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of commercial units in the building. *</label>
-								<input required type="number" class="form-control" id="comm1">
+								<input required value="" type="number" class="form-control" id="comm1">
 							</div>
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of floors in the building. *</label>
-								<input required type="number" class="form-control" id="comm2">
+								<input required value="" type="number" class="form-control" id="comm2">
 							</div>
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of basements in the building. *</label>
-								<input required type="number" class="form-control" id="comm3">
+								<input required value="" type="number" class="form-control" id="comm3">
 							</div>
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of parking place available around the building.
 									*</label>
-								<input required type="number" class="form-control" id="comm4">
+								<input required value="" type="number" class="form-control" id="comm4">
 							</div>
 							<div class="col-md-4">
 								<label for="contact:name">Numbers of elevators cage needed. *</label>
-								<input required type="number" class="form-control" id="comm5">
+								<input required value="" type="number" class="form-control" id="comm5">
 							</div>
 
-							<div class="boxed" id="priceoption"> <input type="text" name value disabled class="boxed"></div>
+							<div class="boxed" id="priceoption_comm"> <input type="number"  class="boxed"></div>
 
 							
-	<p>Please select an instalion option.</p>
-	<div  action="">
-		<input id="stand" type="radio" onclick="calculatorcomm()" name="gender"> Standard<br>
-		<input id="premium" type="radio" onclick="calculatorcomm()" name="gender"> Prenium<br>
-		<input id="excelium" type="radio" onclick="calculatorcomm()" name="gender"> Excelcium<br>
-	</div>
-	<label for="hybridresult">Price of the elevator(s).</label>
-	<div class="boxed" id="priceinstal"> <input type="text" name value disabled class="boxed"></div>
-
-
-
-
-
+							<p>Please select an instalion option.</p>
+							<div  action="">
+								<input id="stand_com" type="radio" onclick="calculatorcomm()" name="gender"> Standard<br>
+								<input id="premium_com" type="radio" onclick="calculatorcomm()" name="gender"> Prenium<br>
+								<input id="excelium_com" type="radio" onclick="calculatorcomm()" name="gender"> Excelcium<br>
+							</div>
+							<label for="hybridresult">Price of the elevator(s).</label>
+							<div class="boxed" id="priceinstal_comm"> <input type="text" name value disabled class="boxed"></div>
 						</div>
 					</div>
 
@@ -337,19 +332,17 @@
 								<input type="number" id="hy6" size=10 value="" name="onlynumbers" min="0" max="24"
 									required><span class="required">*</span>
 							</div>
-						<div class="boxed" id="priceoption"> <input type="text" name value disabled class="boxed"></div>
+							<div class="boxed" id="priceoption_hyb"> <input type="number"  class="boxed"></div>
 							
 							
-	<p>Please select an instalion option.</p>
-	<div  action="">
-		<input id="stand" type="radio" onclick="calculatorhyb()" name="gender"> Standard<br>
-		<input id="premium" type="radio" onclick="calculatorhyb()" name="gender"> Prenium<br>
-		<input id="excelium" type="radio" onclick="calculatorhyb()" name="gender"> Excelcium<br>
-	</div>
-	<label for="hybridresult">Price of the elevator(s).</label>
-	<div class="boxed" id="priceinstal"> <input type="text" name value disabled class="boxed"></div>
-
-
+							<p>Please select an instalion option.</p>
+							<div  action="">
+								<input id="stand_hyb" type="radio" onclick="calculatorhyb()" name="gender"> Standard<br>
+								<input id="premium_hyb" type="radio" onclick="calculatorhyb()" name="gender"> Prenium<br>
+								<input id="excelium_hyb" type="radio" onclick="calculatorhyb()" name="gender"> Excelcium<br>
+							</div>
+							<label for="hybridresult">Price of the elevator(s).</label>
+							<div class="boxed" id="priceinstal_hyb"> <input type="text" name value disabled class="boxed"></div>
 						</div>
 					</div>
 
@@ -379,26 +372,21 @@
 								<input required type="text" value="" class="form-control" id="corp5">
 							</div>
 							
-						<div class="boxed" id="priceoption"> <input type="text" name value disabled class="boxed"></div>
+							<div class="boxed" id="priceoption_corp"> <input type="number"  class="boxed"></div>
 
 
 							<p>Please select an instalion option.</p>
 							<div  action="">
-								<input id="stand" type="radio" onclick="calculatorcorp()" name="gender"> Standard<br>
-								<input id="premium" type="radio" onclick="calculatorcorp()" name="gender"> Prenium<br>
-								<input id="excelium" type="radio" onclick="calculatorcorp()" name="gender"> Excelcium<br>
+								<input id="standcorp" type="radio" onclick="calculatorcorp()" name="gender"> Standard<br>
+								<input id="premiumcorp" type="radio" onclick="calculatorcorp()" name="gender"> Prenium<br>
+								<input id="exceliumcorp" type="radio" onclick="calculatorcorp()" name="gender"> Excelcium<br>
 							</div>
 							<label for="hybridresult">Price of the elevator(s).</label>
-							<div class="boxed" id="priceinstal"> <input type="text" name value disabled class="boxed"></div>
-						
-						
+							<div class="boxed" id="priceinstal_corp"> <input type="text" name value disabled class="boxed"></div>
 
 						</div>
 					</div>
-
-
 				</div>
-
 			</div>
 			
 		</section>
