@@ -1,0 +1,128 @@
+SET Total floor = 10
+SET Total column = 1
+SET total elevator = 2
+SET defaultfloor RC = 1
+SET Maxweightlimit = 2500
+SET Maxload = 3000
+SET numbersofcallbutton = 2 by floor 
+
+
+
+All_Floors (RC,2,3,4,5,6,7,8,9,10)
+
+
+
+SEQUENCE callElevator USING  direction AND currentfloor
+CALL externalbutton USING direction AND currentfloor
+ CALL  findbestelevator USING direction AND currentFloor RETURNING bestelevator
+ CALL requestelevator USING elevator AND  currentfloor 
+ END SEQUENCE
+ 
+ SEQUENCE externalbutton
+ FOR EACH button IN externalbuttons
+        IF currentfloor = buttonfloor AND direction = buttondirection THEN
+             SET button innactive
+                ELSE IF currentfloor != buttonfloor SET button active 
+                               ELSE IF buttondirection != direction SET button active
+                                END IF   
+                      END IF
+         END IF
+     END FOR                 
+ END SEQUENCE
+
+
+ 
+
+ SEQUENCE floorchoice 
+   IF floorchoice is higher than currentFloor THEN 
+      CALL elevatorUp
+       IF floorchoice is lower than currentFloor THEN
+          CALL elevatorDown
+END SEQUENCE
+
+
+
+
+SEQUENCE elevatorUp USING elevatorposition AND currentFloor
+    FOR EACH elevator in elevators
+        IF currentFloor < elevatorposition
+            INCREMENT elevatorposition by 1
+         REPEAT UNTIL floor = elevatorposition
+            IF elevatorposition = floor THEN
+                CALL openclosedoors
+                END IF
+            END IF 
+        END FOR
+END SEQUENCE
+
+
+SEQUENCE elevatorDown USING elevatorposition AND currentFloor
+    FOR EACH elevator in elevators 
+        IF currentFloor < elevatorposition
+          DECREMENT elevatorposition by 1
+            REPEAT UNTIL floor = elevatorposition 
+                IF elevatorposition = THEN  
+                    CALL openclosedoors
+                    END IF
+            END IF 
+     END FOR
+END SEQUENCE
+
+
+
+
+
+
+
+ SEQUENCE findbestelevator USING direction and currentfloor
+    FOR EACH elevator in elevators
+
+     WHILE elevator is not found
+        FOR EACH elevator in elevatorlist 
+            IF status is idle and currentFloor = elevatorposition THEN
+                RETURN bestelevator
+                END IF
+         END FOR EACH
+                    FOR EACH elevator in elevatorlist
+                         ELSE IF status elevatorUp AND currentFloor > elevatorposition and direction is going up THEN
+                             RETURN bestelevator
+                             END IF
+                            END FOR EACH
+                                    FOR EACH elevator in elevatorlist
+                                 ELSE IF status is elevatorDown AND currentFloor < elevatorposition and direction is going down THEN
+                                     RETURN bestelevator
+                                     END IF
+                                END FOR EACH
+                                FOR EACH elevator in elevatorlist
+                                    ELSE IF status is idle AND currentFloor != elevatorposition THEN             
+                                     RETURN bestelevator
+                                     END IF
+                                    END FOR EACH     
+            END IF
+        END FOR
+    END WHILE
+END SEQUENCE
+
+SEQUENCE movelevator USING addtofloorlist AND bestelevator
+    
+
+             
+
+SEQUENCE addtofloorlist USING position AND currentFloor
+    ADD currentfloor to floorlist WITH bestelevator
+    CALL sortfloorlist USING floorlist WITH bestelevator
+    SET sortfloorlist TO sortedfloorlist
+
+
+
+
+
+ 
+ 
+ 
+
+
+
+ 
+ 
+
