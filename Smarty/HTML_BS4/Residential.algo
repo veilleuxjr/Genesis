@@ -1,3 +1,4 @@
+SEQUENCE startup
 SET Total floor = 10
 SET Total column = 1
 SET total elevator = 2
@@ -5,30 +6,54 @@ SET defaultfloor RC = 1
 SET Maxweightlimit = 2500
 SET Maxload = 3000
 SET numbersofcallbutton = 2 by floor 
-
-
-
-All_Floors (RC,2,3,4,5,6,7,8,9,10)
+SET elevatorstatus TO idle
+SET elevatorfloor TO RC
+SET elevatordoor TO close
+SEQUENCE startup
 
 
 
 SEQUENCE callElevator USING  direction AND currentfloor
-CALL externalbutton USING direction AND currentfloor
- CALL  findbestelevator USING direction AND currentFloor RETURNING bestelevator
- CALL requestelevator USING elevator AND  currentfloor 
+    CALL externalbutton WITH direction AND currentfloor RETURNING externalButtonStatus
+    CALL  findbestelevator WITH direction AND currentFloor RETURNING bestelevator
+    CALL requestelevator WITH bestelevator AND  requestedfloor RETURNING organizedFloorlist
+    CALL movelevator WITH bestelevator AND direction AND organizedFloorlist 
  END SEQUENCE
+
+
+ SEQUENCE callInelevator USING currentfloor AND requestedfloor
+    CALL internalbutton WITH currentfloor AND requestedFloor RETURNING internalButtonStatus
+    CALL requestelevator WITH bestelevator and requestedFloor RETURNING organizedFloorList
+    CALL moveElevator with bestelevator AND direction AND organizedFloorList
+END SEQUENCE
  
- SEQUENCE externalbutton
- FOR EACH button IN externalbuttons
-        IF currentfloor = buttonfloor AND direction = buttondirection THEN
-             SET button innactive
-                ELSE IF currentfloor != buttonfloor SET button active 
-                               ELSE IF buttondirection != direction SET button active
-                                END IF   
-                      END IF
-         END IF
-     END FOR                 
+ SEQUENCE externalbutton USING direction AND currentfloor
+FOR EACH button in externalButtons
+        IF currentFloor = buttonFloor AND direction = buttondirection THEN
+            SET externalButtonStatus innactive
+            RETURN externalButtonStatus
+        ELSE IF currentFloor != buttonFloor 
+            SET externalButtonStatus active 
+            RETURN externalButtonStatus
+        ELSE IF buttondirection != direction 
+            SET externalButtonStatus active
+            RETURN externalButtonStatus
+        END IF   
+    END FOR  
  END SEQUENCE
+
+ SEQUENCE internalButton (requestedFloor)
+    FOR EACH button in internalButtons
+        IF currentFloor = requestedFloor THEN
+            SET internalButtonStatus innactive
+            RETURN internalButtonStatus
+        ELSE IF currentFloor != requestedFloor 
+            SET internalButtonStatus active 
+            RETURN internalButtonStatus
+        END IF   
+    END FOR  
+END SEQUENCE
+
 
 
  
@@ -42,35 +67,44 @@ END SEQUENCE
 
 
 
-
-SEQUENCE elevatorUp USING elevatorposition AND currentFloor
-    FOR EACH elevator in elevators
-        IF currentFloor < elevatorposition
-            INCREMENT elevatorposition by 1
-         REPEAT UNTIL floor = elevatorposition
-            IF elevatorposition = floor THEN
-                CALL openclosedoors
-                END IF
-            END IF 
-        END FOR
-END SEQUENCE
+SEQUENCE elevatorUp USING bestelevator AND requestedFloor
+   CALL opencloseDoor
+    SET status TO moving
+        COMPUTE elevatorFloor = elevatorFloor + 1 
+        UNTIL elevatorFloor = requestedFloor
+    SET status TO stopped
+    CALL opencloseDoor with bestelevator
+END SEQUENCE   
 
 
-SEQUENCE elevatorDown USING elevatorposition AND currentFloor
-    FOR EACH elevator in elevators 
-        IF currentFloor < elevatorposition
-          DECREMENT elevatorposition by 1
-            REPEAT UNTIL floor = elevatorposition 
-                IF elevatorposition = THEN  
-                    CALL openclosedoors
-                    END IF
-            END IF 
-     END FOR
+
+SEQUENCE elevatorDown USING bestelevator AND requestedFloor
+    CALL opencloseDoor
+    SET status TO moving
+        COMPUTE elevatorFloor = elevatorFloor - 1 
+        UNTIL elevatorFloor = requestedFloor
+    SET status TO stopped
+    CALL opencloseDoor with bestelevator
 END SEQUENCE
 
 
 
+SEQUENCE requestelevator USING elevator AND requestedfloor
+    ADD requestedfloor TO floorList
+        CALL organizefloorList with floorlist and direction RETURNING organizedfloorList
+        SET floorlist TO organizedfloorlist
+END SEQUENCE
 
+
+SEQUENCE organizefloorList USING floorlist AND direction
+    IF direction is up THEN
+        COMPUTE floorList by ascending
+        RETURN organizedFloorList
+    ELSE IF direction is down THEN
+        COMPUTE floorList by descending
+        RETURN organizedfloorlist
+    END IF        
+END SEQUENCE
 
 
 
@@ -79,22 +113,22 @@ END SEQUENCE
 
      WHILE elevator is not found
         FOR EACH elevator in elevatorlist 
-            IF status is idle and currentFloor = elevatorposition THEN
+            IF status is idle and currentFloor = elevatorFloor THEN
                 RETURN bestelevator
                 END IF
          END FOR EACH
                     FOR EACH elevator in elevatorlist
-                         ELSE IF status elevatorUp AND currentFloor > elevatorposition and direction is going up THEN
+                         ELSE IF status elevatorUp AND currentFloor > elevatorFloor and direction is going up THEN
                              RETURN bestelevator
                              END IF
                             END FOR EACH
                                     FOR EACH elevator in elevatorlist
-                                 ELSE IF status is elevatorDown AND currentFloor < elevatorposition and direction is going down THEN
+                                 ELSE IF status is elevatorDown AND currentFloor < elevatorFloor and direction is going down THEN
                                      RETURN bestelevator
                                      END IF
                                 END FOR EACH
                                 FOR EACH elevator in elevatorlist
-                                    ELSE IF status is idle AND currentFloor != elevatorposition THEN             
+                                    ELSE IF status is idle AND currentFloor != elevatorFloor THEN             
                                      RETURN bestelevator
                                      END IF
                                     END FOR EACH     
@@ -103,16 +137,64 @@ END SEQUENCE
     END WHILE
 END SEQUENCE
 
-SEQUENCE movelevator USING addtofloorlist AND bestelevator
+
+
+SEQUENCE movelevator USING floorchoice AND bestelevator
+    WHILE organizedFloorList has at least 1 floor
+        READ requestedFloor FROM organizedFloorList
+            IF elevatorFloor = requestedFloor THEN
+                CALL opencloseDoor WITH bestElevator
+            ELSE IF elevatorFloor < requestedFloor THEN
+                CALL elevatorUp WITH bestElevator AND requestedFloor
+            ELSE IF elevatorFloor > requestedFloor THEN
+                CALL elevatorDown WITH bestElevator AND requestedFloor
+            END IF
+    END WHILE      
+END SEQUENCE
+
+
+SEQUENCE opencloseDoor USING bestElevator
+         IF bestElevator is stopped THEN
+            Open door WITH elevatortimer THEN
+            Close door
+        ELSE IF door = blocked THEN
+            REPEAT UNTIL door != blocked
+        END IF
+END SEQUENCE
+
+
+
+SEQUENCE elevatortimer
+ SET timer TO 7 seconds
+    END SEQUENCE
+
+
+ SEQUENCE restmode 
+ IF callElevator AND callInelevator AND requestelevator is not active THEN
+  CALL movelevator TO send elevators TO RC
+  END IF
+ END SEQUENCE 
+
+
+
+ SEQUENCE overweight USING weightsensor AND columns
+  FOR EACH elevator in columns
+    SET maximumweight TO 3500 lbs THEN
+    READ weightsensor THEN
+      IF weightsensor value >= 3500 lbs THEN
+        SET overweightlight TO ON THEN
+        CALL opencloseDoor
+      ELSE IF weight_sensor value < 3500 lbs
+        SET overweightlight TO OFF
+      END IF
+  END FOR
+END SEQUENCE
+
+
+
     
 
-             
-
-SEQUENCE addtofloorlist USING position AND currentFloor
-    ADD currentfloor to floorlist WITH bestelevator
-    CALL sortfloorlist USING floorlist WITH bestelevator
-    SET sortfloorlist TO sortedfloorlist
-
+            
 
 
 
